@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard</title>
+
+<style>
+  :root {
+    --bg: #071219;
+    --panel: #17232b;
+    --panel2: #101b22;
+    --yellow: #ffd766;
+    --blue: #86c9ff;
+    --white: #ffffff;
+    --muted: #6f7d86;
+    --border: rgba(255,255,255,0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: radial-gradient(circle at top, #10202a 0%, #071219 55%, #050b0f 100%);
+    color: var(--white);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .dashboard {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 22px;
+  }
+
+  .ticker {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 2px solid rgba(255,215,102,0.45);
+    border-radius: 28px;
+    overflow: hidden;
+    background: rgba(255,215,102,0.10);
+    margin-bottom: 22px;
+    min-height: 68px;
+  }
+
+  .ticker-label {
+    background: var(--yellow);
+    color: #050b0f;
+    font-weight: 900;
+    font-size: clamp(22px, 4vw, 40px);
+    padding: 16px 32px;
+    flex-shrink: 0;
+  }
+
+  .ticker-text {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: clamp(20px, 3vw, 34px);
+    font-weight: 800;
+    color: var(--white);
+  }
+
+  .ticker-text span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollTicker 22s linear infinite;
+  }
+
+  @keyframes scrollTicker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .people {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+
+  .person-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 2px solid var(--border);
+    border-radius: 34px;
+    padding: 28px;
+    min-height: 560px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  }
+
+  .person-name {
+    color: var(--yellow);
+    font-size: clamp(34px, 4vw, 58px);
+    font-weight: 900;
+    margin-bottom: 28px;
+    line-height: 1;
+  }
+
+  .event {
+    padding: 22px 0;
+    border-top: 2px solid rgba(255,255,255,0.10);
+  }
+
+  .event:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .event-time {
+    color: var(--blue);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .event-text {
+    font-size: clamp(26px, 3.2vw, 44px);
+    font-weight: 850;
+    line-height: 1.18;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  .empty {
+    color: var(--muted);
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .refresh {
+    position: fixed;
+    right: 24px;
+    bottom: 20px;
+    color: rgba(255,255,255,0.35);
+    font-size: 24px;
+  }
+
+  @media (max-width: 700px) {
+    .dashboard {
+      padding: 14px;
+    }
+
+    .ticker {
+      border-radius: 22px;
+      min-height: 56px;
+      margin-bottom: 16px;
+    }
+
+    .ticker-label {
+      font-size: 22px;
+      padding: 14px 22px;
+    }
+
+    .ticker-text {
+      font-size: 20px;
+    }
+
+    .people {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .person-card {
+      min-height: auto;
+      border-radius: 24px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .person-name {
+      font-size: 34px;
+      margin: 0;
+      padding-top: 6px;
+    }
+
+    .events {
+      border-left: 1px solid rgba(255,255,255,0.18);
+      padding-left: 18px;
+    }
+
+    .event {
+      padding: 14px 0;
+    }
+
+    .event-time {
+      font-size: 22px;
+    }
+
+    .event-text {
+      font-size: 24px;
+      line-height: 1.18;
+    }
+
+    .refresh {
+      font-size: 16px;
+      right: 14px;
+      bottom: 12px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <div class="ticker">
+    <div class="ticker-label">TODAY</div>
+    <div class="ticker-text">
+      <span id="tickerText">Loading dashboard...</span>
+    </div>
+  </div>
+
+  <div class="people" id="people"></div>
+
+</div>
+
+<div class="refresh" id="refreshText">Refresh in 60s</div>
+
+<script>
+const fallbackData = {
+  ticker: "No major updates today • Dashboard online •",
+  people: {
+    Simon: [
+      { time: "16:30", text: "Take boys to TKD" },
+      { time: "18:15", text: "Take Tom to football training" }
+    ],
+    Annie: [],
+    Tom: [
+      { time: "16:30", text: "TKD - Dunlop Village Hall" },
+      { time: "18:15", text: "Football training" }
+    ],
+    Callum: [
+      { time: "16:30", text: "TKD - Dunlop Village Hall" },
+      { time: "19:00", text: "Cubs" }
+    ]
+  }
+};
+
+const order = ["Simon", "Annie", "Tom", "Callum"];
+
+async function loadDashboard() {
+  let data = fallbackData;
+
+  try {
+    const response = await fetch("data.json?cache=" + Date.now());
+    if (response.ok) {
+      data = await response.json();
+    }
+  } catch (e) {
+    data = fallbackData;
+  }
+
+  document.getElementById("tickerText").textContent = data.ticker || "No updates";
+
+  const peopleWrap = document.getElementById("people");
+  peopleWrap.innerHTML = "";
+
+  order.forEach(name => {
+    const card = document.createElement("div");
+    card.className = "person-card";
+
+    const nameDiv = document.createElement("div");
+    nameDiv.className = "person-name";
+    nameDiv.textContent = name;
+
+    const eventsDiv = document.createElement("div");
+    eventsDiv.className = "events";
+
+    const events = data.people && data.people[name] ? data.people[name] : [];
+
+    if (events.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "No events";
+      eventsDiv.appendChild(empty);
+    } else {
+      events.forEach(ev => {
+        const event = document.createElement("div");
+        event.className = "event";
+
+        const time = document.createElement("div");
+        time.className = "event-time";
+        time.textContent = ev.time || "";
+
+        const text = document.createElement("div");
+        text.className = "event-text";
+        text.textContent = ev.text || "";
+
+        event.appendChild(time);
+        event.appendChild(text);
+        eventsDiv.appendChild(event);
+      });
+    }
+
+    card.appendChild(nameDiv);
+    card.appendChild(eventsDiv);
+    peopleWrap.appendChild(card);
+  });
+}
+
+let seconds = 60;
+
+function countdown() {
+  seconds--;
+  if (seconds <= 0) {
+    seconds = 60;
+    loadDashboard();
+  }
+  document.getElementById("refreshText").textContent = "Refresh in " + seconds + "s";
+}
+
+loadDashboard();
+setInterval(countdown, 1000);
+</script>
+
+</body>
+</html>
