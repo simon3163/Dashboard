@@ -1,327 +1,110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0b1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Orbit">
+<title>Orbit</title>
 <style>
-  :root {
-    --bg: #071219;
-    --panel: #17232b;
-    --panel2: #101b22;
-    --yellow: #ffd766;
-    --blue: #86c9ff;
-    --white: #ffffff;
-    --muted: #6f7d86;
-    --border: rgba(255,255,255,0.12);
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0;
-    background: radial-gradient(circle at top, #10202a 0%, #071219 55%, #050b0f 100%);
-    color: var(--white);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  .dashboard {
-    width: 100%;
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 22px;
-  }
-
-  .ticker {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    border: 2px solid rgba(255,215,102,0.45);
-    border-radius: 28px;
-    overflow: hidden;
-    background: rgba(255,215,102,0.10);
-    margin-bottom: 22px;
-    min-height: 68px;
-  }
-
-  .ticker-label {
-    background: var(--yellow);
-    color: #050b0f;
-    font-weight: 900;
-    font-size: clamp(22px, 4vw, 40px);
-    padding: 16px 32px;
-    flex-shrink: 0;
-  }
-
-  .ticker-text {
-    flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: clamp(20px, 3vw, 34px);
-    font-weight: 800;
-    color: var(--white);
-  }
-
-  .ticker-text span {
-    display: inline-block;
-    padding-left: 100%;
-    animation: scrollTicker 22s linear infinite;
-  }
-
-  @keyframes scrollTicker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-  }
-
-  .people {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px;
-  }
-
-  .person-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    border: 2px solid var(--border);
-    border-radius: 34px;
-    padding: 28px;
-    min-height: 560px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  }
-
-  .person-name {
-    color: var(--yellow);
-    font-size: clamp(34px, 4vw, 58px);
-    font-weight: 900;
-    margin-bottom: 28px;
-    line-height: 1;
-  }
-
-  .event {
-    padding: 22px 0;
-    border-top: 2px solid rgba(255,255,255,0.10);
-  }
-
-  .event:first-of-type {
-    border-top: none;
-    padding-top: 0;
-  }
-
-  .event-time {
-    color: var(--blue);
-    font-size: clamp(24px, 3vw, 38px);
-    font-weight: 900;
-    margin-bottom: 6px;
-  }
-
-  .event-text {
-    font-size: clamp(26px, 3.2vw, 44px);
-    font-weight: 850;
-    line-height: 1.18;
-    word-break: normal;
-    overflow-wrap: break-word;
-  }
-
-  .empty {
-    color: var(--muted);
-    font-size: 28px;
-    font-weight: 700;
-  }
-
-  .refresh {
-    position: fixed;
-    right: 24px;
-    bottom: 20px;
-    color: rgba(255,255,255,0.35);
-    font-size: 24px;
-  }
-
-  @media (max-width: 700px) {
-    .dashboard {
-      padding: 14px;
-    }
-
-    .ticker {
-      border-radius: 22px;
-      min-height: 56px;
-      margin-bottom: 16px;
-    }
-
-    .ticker-label {
-      font-size: 22px;
-      padding: 14px 22px;
-    }
-
-    .ticker-text {
-      font-size: 20px;
-    }
-
-    .people {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .person-card {
-      min-height: auto;
-      border-radius: 24px;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .person-name {
-      font-size: 34px;
-      margin: 0;
-      padding-top: 6px;
-    }
-
-    .events {
-      border-left: 1px solid rgba(255,255,255,0.18);
-      padding-left: 18px;
-    }
-
-    .event {
-      padding: 14px 0;
-    }
-
-    .event-time {
-      font-size: 22px;
-    }
-
-    .event-text {
-      font-size: 24px;
-      line-height: 1.18;
-    }
-
-    .refresh {
-      font-size: 16px;
-      right: 14px;
-      bottom: 12px;
-    }
-  }
+:root{--bg:#0b1020;--card:#151c31;--card2:#1b2440;--text:#f7f8fb;--muted:#95a0bb;--line:#2b3656;--accent:#75a7ff;--good:#65d39a;--warn:#ffc96b;--bad:#ff7d86}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}body{min-height:100dvh;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}button,input,textarea,select{font:inherit}.app{max-width:760px;margin:auto;min-height:100dvh;padding:18px 16px 104px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{font-size:30px;font-weight:850;letter-spacing:-1px}.today{color:var(--muted);font-size:13px}.hero{background:linear-gradient(145deg,#1d2948,#11182c);border:1px solid var(--line);border-radius:26px;padding:20px;margin-bottom:14px}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}.hero h1{font-size:31px;line-height:1.02;margin:7px 0 8px}.hero p{margin:0;color:var(--muted);line-height:1.45}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.quick button,.action{border:0;border-radius:17px;background:var(--card);color:var(--text);padding:14px 10px;font-weight:750;min-height:58px}.quick button:active,.action:active,.nav button:active{transform:scale(.97)}.section{margin-top:22px}.sectionHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.section h2{font-size:18px;margin:0}.small{font-size:12px;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:15px;margin:10px 0}.row{display:flex;gap:12px;align-items:flex-start}.time{min-width:56px;color:var(--accent);font-weight:800}.title{font-weight:800}.meta{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.35}.pill{display:inline-flex;border-radius:99px;padding:5px 8px;background:#202b49;color:#a9c6ff;font-size:11px;font-weight:700;margin:4px 4px 0 0}.pill.warn{background:#3b3020;color:#ffd98b}.pill.good{background:#173a2b;color:#79e0aa}.empty{border:1px dashed var(--line);border-radius:20px;padding:22px;text-align:center;color:var(--muted)}.people{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.person{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#263355;font-weight:850;margin-bottom:9px}.nav{position:fixed;left:0;right:0;bottom:0;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(10,15,29,.94);backdrop-filter:blur(20px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:10}.navInner{width:min(760px,100%);display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav button{border:0;background:transparent;color:var(--muted);padding:9px 3px;border-radius:13px;font-size:11px;font-weight:700}.nav button span{display:block;font-size:20px;margin-bottom:3px}.nav button.active{background:var(--card);color:var(--text)}.view{display:none}.view.active{display:block}.fab{position:fixed;right:18px;bottom:88px;width:58px;height:58px;border-radius:50%;border:0;background:var(--accent);color:#07101f;font-size:30px;font-weight:700;box-shadow:0 10px 30px #0008;z-index:9}.sheet{position:fixed;inset:0;background:#060912cc;display:none;align-items:flex-end;z-index:30}.sheet.open{display:flex}.panel{width:100%;max-width:760px;margin:auto;background:#12192c;border-radius:28px 28px 0 0;border:1px solid var(--line);padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:88dvh;overflow:auto}.panel h3{font-size:23px;margin:3px 0 16px}.field{margin:12px 0}.field label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#0e1425;color:var(--text);border-radius:14px;padding:13px}.field textarea{min-height:130px;resize:vertical}.buttons{display:flex;gap:9px;margin-top:15px}.buttons button{flex:1;border:0;border-radius:15px;padding:14px;font-weight:800}.primary{background:var(--accent);color:#07101f}.secondary{background:#252f49;color:var(--text)}.danger{background:#3a1f29;color:#ff9ea5}.reviewBtns{display:flex;gap:7px;margin-top:11px}.reviewBtns button{border:0;border-radius:12px;padding:9px 11px;font-weight:750}.map{position:relative;height:340px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(circle at center,#1d2a4b 0,#11182b 48%,#0c1222 100%);overflow:hidden}.node{position:absolute;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:#1d2948;border:1px solid #41527e;display:grid;place-items:center;text-align:center;font-size:12px;font-weight:800;padding:5px}.node.me{width:92px;height:92px;left:50%;top:50%;background:#2b4f8e;border-color:#77a8ff}.n1{left:23%;top:27%}.n2{left:77%;top:26%}.n3{left:25%;top:75%}.n4{left:76%;top:74%}.search{width:100%;padding:14px;border-radius:16px;border:1px solid var(--line);background:#0e1425;color:var(--text);margin-bottom:12px}.toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%);background:#eef3ff;color:#111827;padding:10px 14px;border-radius:999px;font-weight:750;font-size:13px;display:none;z-index:50}.source{white-space:pre-wrap;font-size:12px;color:#b8c1d8;background:#0e1425;border-radius:12px;padding:10px;margin-top:10px}.count{background:#263453;color:#c7d8ff;border-radius:99px;padding:3px 7px;font-size:11px}.backup{display:grid;grid-template-columns:1fr 1fr;gap:10px}.backup button{border:0;border-radius:16px;background:var(--card);color:var(--text);padding:13px;font-weight:750}
 </style>
 </head>
-
 <body>
+<div class="app">
+  <div class="top"><div><div class="brand">Orbit</div><div class="today" id="dateLine"></div></div><div class="pill good">On this phone</div></div>
 
-<div class="dashboard">
+  <main id="todayView" class="view active">
+    <section class="hero"><div class="eyebrow">Your world, in one place</div><h1 id="heroTitle">Nothing urgent yet.</h1><p id="heroText">Add a plan or drop a message into Intake. Orbit will organise it around people, places and dates.</p></section>
+    <div class="quick"><button data-open="event">＋ Plan</button><button data-open="intake">⇩ Intake</button><button data-go="map">◎ Map</button></div>
+    <section class="section"><div class="sectionHead"><h2>Now → next</h2><span class="small" id="todayCount"></span></div><div id="todayList"></div></section>
+    <section class="section"><div class="sectionHead"><h2>Needs your eye</h2><span class="count" id="reviewCount">0</span></div><div id="reviewList"></div></section>
+  </main>
 
-  <div class="ticker">
-    <div class="ticker-label">TODAY</div>
-    <div class="ticker-text">
-      <span id="tickerText">Loading dashboard...</span>
-    </div>
-  </div>
+  <main id="diaryView" class="view">
+    <section class="section" style="margin-top:0"><div class="sectionHead"><h2>Diary</h2><button class="action" data-open="event">Add</button></div><input class="search" id="diarySearch" placeholder="Search plans…"><div id="diaryList"></div></section>
+  </main>
 
-  <div class="people" id="people"></div>
+  <main id="peopleView" class="view">
+    <section class="section" style="margin-top:0"><div class="sectionHead"><h2>People</h2><button class="action" data-open="person">Add</button></div><div class="people" id="peopleList"></div></section>
+  </main>
 
+  <main id="mapView" class="view">
+    <div class="map"><div class="node me">Me</div><div class="node n1">Ma</div><div class="node n2">Tom</div><div class="node n3">Callum</div><div class="node n4">Plans</div></div>
+    <section class="section"><h2>Places</h2><div id="placesList"></div></section>
+  </main>
+
+  <main id="moreView" class="view">
+    <section class="section" style="margin-top:0"><h2>Intake</h2><div class="card"><div class="title">Drop information in</div><div class="meta">Paste an email, text or WhatsApp conversation. Orbit looks for dates and times, then asks you to confirm before it becomes a real diary item.</div><button class="action" style="width:100%;margin-top:12px" data-open="intake">Open Intake</button></div></section>
+    <section class="section"><h2>Find anything</h2><input class="search" id="globalSearch" placeholder="Person, place, plan or source…"><div id="searchResults"></div></section>
+    <section class="section"><h2>Backup</h2><div class="backup"><button id="exportBtn">Export data</button><button id="importBtn">Import data</button></div><input id="importFile" type="file" accept="application/json" hidden></section>
+  </main>
 </div>
 
-<div class="refresh" id="refreshText">Refresh in 60s</div>
+<button class="fab" data-open="event" aria-label="Add">＋</button>
+<div class="nav"><div class="navInner">
+<button class="active" data-view="today"><span>⌂</span>Today</button><button data-view="diary"><span>◷</span>Diary</button><button data-view="people"><span>♙</span>People</button><button data-view="map"><span>◎</span>Map</button><button data-view="more"><span>•••</span>More</button>
+</div></div>
 
+<div class="sheet" id="eventSheet"><div class="panel"><h3>Add a plan</h3><div class="field"><label>What?</label><input id="eventTitle" placeholder="e.g. Tom football training"></div><div class="field"><label>Date</label><input id="eventDate" type="date"></div><div class="field"><label>Time</label><input id="eventTime" type="time"></div><div class="field"><label>Person</label><select id="eventPerson"></select></div><div class="field"><label>Place</label><input id="eventPlace" placeholder="Optional"></div><div class="buttons"><button class="secondary closeSheet">Cancel</button><button class="primary" id="saveEvent">Save plan</button></div></div></div>
+
+<div class="sheet" id="personSheet"><div class="panel"><h3>Add a person</h3><div class="field"><label>Name</label><input id="personName" placeholder="Name"></div><div class="field"><label>Relationship</label><input id="personRelation" placeholder="Family, friend, school…"></div><div class="buttons"><button class="secondary closeSheet">Cancel</button><button class="primary" id="savePerson">Save person</button></div></div></div>
+
+<div class="sheet" id="intakeSheet"><div class="panel"><h3>Smart Intake</h3><div class="field"><label>Source</label><select id="intakeType"><option>Email</option><option>WhatsApp</option><option>Message</option><option>Note</option></select></div><div class="field"><label>Paste the message</label><textarea id="intakeText" placeholder="Paste an email or chat here…"></textarea></div><div class="buttons"><button class="secondary closeSheet">Cancel</button><button class="primary" id="scanIntake">Scan for dates</button></div></div></div>
+<div class="toast" id="toast"></div>
 <script>
-const fallbackData = {
-  ticker: "No major updates today • Dashboard online •",
-  people: {
-    Simon: [
-      { time: "16:30", text: "Take boys to TKD" },
-      { time: "18:15", text: "Take Tom to football training" }
-    ],
-    Annie: [],
-    Tom: [
-      { time: "16:30", text: "TKD - Dunlop Village Hall" },
-      { time: "18:15", text: "Football training" }
-    ],
-    Callum: [
-      { time: "16:30", text: "TKD - Dunlop Village Hall" },
-      { time: "19:00", text: "Cubs" }
-    ]
-  }
-};
-
-const order = ["Simon", "Annie", "Tom", "Callum"];
-
-async function loadDashboard() {
-  let data = fallbackData;
-
-  try {
-    const response = await fetch("data.json?cache=" + Date.now());
-    if (response.ok) {
-      data = await response.json();
-    }
-  } catch (e) {
-    data = fallbackData;
-  }
-
-  document.getElementById("tickerText").textContent = data.ticker || "No updates";
-
-  const peopleWrap = document.getElementById("people");
-  peopleWrap.innerHTML = "";
-
-  order.forEach(name => {
-    const card = document.createElement("div");
-    card.className = "person-card";
-
-    const nameDiv = document.createElement("div");
-    nameDiv.className = "person-name";
-    nameDiv.textContent = name;
-
-    const eventsDiv = document.createElement("div");
-    eventsDiv.className = "events";
-
-    const events = data.people && data.people[name] ? data.people[name] : [];
-
-    if (events.length === 0) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = "No events";
-      eventsDiv.appendChild(empty);
-    } else {
-      events.forEach(ev => {
-        const event = document.createElement("div");
-        event.className = "event";
-
-        const time = document.createElement("div");
-        time.className = "event-time";
-        time.textContent = ev.time || "";
-
-        const text = document.createElement("div");
-        text.className = "event-text";
-        text.textContent = ev.text || "";
-
-        event.appendChild(time);
-        event.appendChild(text);
-        eventsDiv.appendChild(event);
-      });
-    }
-
-    card.appendChild(nameDiv);
-    card.appendChild(eventsDiv);
-    peopleWrap.appendChild(card);
-  });
+const KEY='orbit.v3';
+const seed={people:[{id:'p1',name:'Ma',relation:'Family'},{id:'p2',name:'Tom',relation:'Family'},{id:'p3',name:'Callum',relation:'Family'}],events:[],reviews:[],places:[],sources:[]};
+let db=load();
+function load(){try{return {...seed,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return structuredClone(seed)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>(s??'').toString().replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
+function showToast(t){const x=$('#toast');x.textContent=t;x.style.display='block';clearTimeout(showToast.t);showToast.t=setTimeout(()=>x.style.display='none',1800)}
+function fmtDate(d){if(!d)return'';const x=new Date(d+'T12:00:00');return x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}
+function todayISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function personName(id){return db.people.find(p=>p.id===id)?.name||''}
+function openSheet(id){$('#'+id+'Sheet').classList.add('open')}
+function closeSheets(){$$('.sheet').forEach(x=>x.classList.remove('open'))}
+$$('.closeSheet').forEach(b=>b.onclick=closeSheets);$$('.sheet').forEach(s=>s.onclick=e=>{if(e.target===s)closeSheets()});
+$$('[data-open]').forEach(b=>b.onclick=()=>openSheet(b.dataset.open));
+$$('[data-go]').forEach(b=>b.onclick=()=>setView(b.dataset.go));
+$$('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+function setView(v){$$('.view').forEach(x=>x.classList.remove('active'));$('#'+v+'View').classList.add('active');$$('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));scrollTo(0,0)}
+function eventCard(e,review=false){const tags=[personName(e.personId),e.place].filter(Boolean).map(x=>`<span class="pill">${esc(x)}</span>`).join('');return `<div class="card"><div class="row"><div class="time">${esc(e.time||'Any')}</div><div><div class="title">${esc(e.title)}</div><div class="meta">${fmtDate(e.date)}${review?' · proposed from '+esc(e.sourceType||'message'):''}</div>${tags}${e.source?`<div class="source">${esc(e.source)}</div>`:''}${review?`<div class="reviewBtns"><button class="primary" onclick="confirmReview('${e.id}')">Confirm</button><button class="danger" onclick="deleteReview('${e.id}')">Ignore</button></div>`:''}</div></div></div>`}
+function render(){
+  $('#dateLine').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+  const today=todayISO();const todayEvents=db.events.filter(e=>e.date===today).sort((a,b)=>(a.time||'99:99').localeCompare(b.time||'99:99'));
+  $('#todayCount').textContent=todayEvents.length?`${todayEvents.length} plan${todayEvents.length>1?'s':''}`:'';
+  $('#todayList').innerHTML=todayEvents.length?todayEvents.map(eventCard).join(''):'<div class="empty">No confirmed plans for today.</div>';
+  const next=db.events.filter(e=>e.date>=today).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];
+  if(todayEvents[0]){$('#heroTitle').textContent='Today is in motion.';$('#heroText').textContent=`Next: ${todayEvents[0].time||'Any time'} — ${todayEvents[0].title}`}
+  else if(next){$('#heroTitle').textContent='Next up';$('#heroText').textContent=`${fmtDate(next.date)} ${next.time||''} — ${next.title}`}
+  else{$('#heroTitle').textContent='Nothing urgent yet.';$('#heroText').textContent='Add a plan or drop a message into Intake. Orbit will organise it around people, places and dates.'}
+  $('#reviewCount').textContent=db.reviews.length;$('#reviewList').innerHTML=db.reviews.length?db.reviews.map(e=>eventCard(e,true)).join(''):'<div class="empty">Nothing waiting for confirmation.</div>';
+  renderDiary();
+  $('#peopleList').innerHTML=db.people.map(p=>{const n=db.events.filter(e=>e.personId===p.id).length;return `<div class="person"><div class="avatar">${esc(p.name.slice(0,1).toUpperCase())}</div><div class="title">${esc(p.name)}</div><div class="meta">${esc(p.relation||'Person')} · ${n} linked plan${n!==1?'s':''}</div></div>`}).join('');
+  const places=[...new Set(db.events.map(e=>e.place).filter(Boolean).concat(db.places.map(p=>p.name)))];$('#placesList').innerHTML=places.length?places.map(p=>`<div class="card"><div class="title">${esc(p)}</div><div class="meta">${db.events.filter(e=>e.place===p).length} linked plans</div></div>`).join(''):'<div class="empty">Places appear automatically when you add plans.</div>';
+  $('#eventPerson').innerHTML='<option value="">None</option>'+db.people.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+  searchAll();
 }
-
-let seconds = 60;
-
-function countdown() {
-  seconds--;
-  if (seconds <= 0) {
-    seconds = 60;
-    loadDashboard();
-  }
-  document.getElementById("refreshText").textContent = "Refresh in " + seconds + "s";
-}
-
-loadDashboard();
-setInterval(countdown, 1000);
+function renderDiary(){const q=$('#diarySearch').value.toLowerCase();const ev=db.events.filter(e=>(e.title+' '+e.place+' '+personName(e.personId)).toLowerCase().includes(q)).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));$('#diaryList').innerHTML=ev.length?ev.map(eventCard).join(''):'<div class="empty">No matching plans.</div>'}
+$('#diarySearch').oninput=renderDiary;
+$('#saveEvent').onclick=()=>{const title=$('#eventTitle').value.trim(),date=$('#eventDate').value;if(!title||!date)return showToast('Add a title and date');db.events.push({id:uid(),title,date,time:$('#eventTime').value,personId:$('#eventPerson').value,place:$('#eventPlace').value.trim(),status:'confirmed',created:Date.now()});['eventTitle','eventDate','eventTime','eventPlace'].forEach(id=>$('#'+id).value='');closeSheets();save();showToast('Plan saved')};
+$('#savePerson').onclick=()=>{const name=$('#personName').value.trim();if(!name)return showToast('Add a name');db.people.push({id:uid(),name,relation:$('#personRelation').value.trim()});$('#personName').value='';$('#personRelation').value='';closeSheets();save();showToast('Person added')};
+function parseDate(text){const iso=text.match(/\b(20\d{2})[-\/.](\d{1,2})[-\/.](\d{1,2})\b/);if(iso)return `${iso[1]}-${iso[2].padStart(2,'0')}-${iso[3].padStart(2,'0')}`;const uk=text.match(/\b(\d{1,2})[\/.-](\d{1,2})[\/.-](20\d{2})\b/);if(uk)return `${uk[3]}-${uk[2].padStart(2,'0')}-${uk[1].padStart(2,'0')}`;const mons={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};const m=text.match(/\b(\d{1,2})\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(20\d{2})\b/i);if(m)return `${m[3]}-${String(mons[m[2].slice(0,3).toLowerCase()]).padStart(2,'0')}-${m[1].padStart(2,'0')}`;return''}
+function parseTime(text){const m=text.match(/\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/);return m?`${m[1].padStart(2,'0')}:${m[2]}`:''}
+$('#scanIntake').onclick=()=>{const text=$('#intakeText').value.trim();if(!text)return showToast('Paste something first');const date=parseDate(text);const time=parseTime(text);const src=$('#intakeType').value;db.sources.push({id:uid(),type:src,text,created:Date.now()});if(date){const known=db.people.find(p=>text.toLowerCase().includes(p.name.toLowerCase()));db.reviews.push({id:uid(),title:text.split(/\n|\.|!/)[0].slice(0,90)||'Possible diary item',date,time,personId:known?.id||'',place:'',source:text,sourceType:src,status:'proposed'})}$('#intakeText').value='';closeSheets();save();showToast(date?'Possible date found':'Saved source — no clear date found')};
+window.confirmReview=id=>{const i=db.reviews.findIndex(x=>x.id===id);if(i<0)return;const e=db.reviews.splice(i,1)[0];e.status='confirmed';db.events.push(e);save();showToast('Added to diary')};window.deleteReview=id=>{db.reviews=db.reviews.filter(x=>x.id!==id);save();showToast('Ignored')};
+function searchAll(){const q=$('#globalSearch').value.toLowerCase().trim();if(!q){$('#searchResults').innerHTML='<div class="empty">Search across plans, people, places and saved sources.</div>';return}const out=[];db.events.forEach(e=>{if((e.title+' '+e.place+' '+personName(e.personId)).toLowerCase().includes(q))out.push(`<div class="card"><div class="title">${esc(e.title)}</div><div class="meta">Plan · ${fmtDate(e.date)}</div></div>`)});db.people.forEach(p=>{if((p.name+' '+p.relation).toLowerCase().includes(q))out.push(`<div class="card"><div class="title">${esc(p.name)}</div><div class="meta">Person · ${esc(p.relation)}</div></div>`)});db.sources.forEach(s=>{if(s.text.toLowerCase().includes(q))out.push(`<div class="card"><div class="title">${esc(s.type)} source</div><div class="source">${esc(s.text.slice(0,240))}</div></div>`)});$('#searchResults').innerHTML=out.join('')||'<div class="empty">Nothing found.</div>'}
+$('#globalSearch').oninput=searchAll;
+$('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='orbit-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$('#importBtn').onclick=()=>$('#importFile').click();$('#importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!x.people||!x.events)throw 0;db=x;save();showToast('Backup imported')}catch{showToast('That backup is not valid')}};
+$('#eventDate').value=todayISO();render();
 </script>
-
 </body>
 </html>
