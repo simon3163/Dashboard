@@ -1,6 +1,8 @@
 (()=>{'use strict';
 const D=window.ORBIT_DATA;if(!D)return;
 const rename=v=>typeof v==='string'?v.replace(/\bMa\b/g,'Annie'):v;
+const deepRename=v=>Array.isArray(v)?v.map(deepRename):(v&&typeof v==='object'?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,deepRename(x)])):rename(v));
+for(const key of ['orbitManual','orbitManualRecords']){try{const raw=localStorage.getItem(key);if(raw)localStorage.setItem(key,JSON.stringify(deepRename(JSON.parse(raw))))}catch(e){}}
 D.version='2.1.0';
 D.updated='2026-09-02T20:36:00+01:00';
 D.people=(D.people||[]).map(rename);
