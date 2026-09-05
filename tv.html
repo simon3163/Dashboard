@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#061426">
+<title>Orbit — Lee Family Today</title>
+<style>
+:root{
+  --bg:#061426; --bg2:#0b2239; --panel:#102b46; --panel2:#0a1e33;
+  --line:#295a82; --text:#f7fbff; --muted:#9fb7cb; --blue:#1597ff;
+  --red:#f22437; --orange:#ff7a2b; --yellow:#f6c12a; --green:#36b76d;
+  --cyan:#10bbc6; --purple:#8a5bdd; --pink:#e64292;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;width:100%;height:100%;overflow:hidden;background:#020812;color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+body{display:flex;align-items:center;justify-content:center}
+.screen{
+  width:100vw;height:100vh;min-height:600px;overflow:hidden;
+  display:grid;grid-template-rows:12.5vh 17vh 1fr 9vh;
+  background:
+    radial-gradient(circle at 83% -12%,rgba(28,112,198,.20),transparent 35%),
+    radial-gradient(circle at 18% 0%,rgba(36,95,157,.12),transparent 31%),
+    linear-gradient(145deg,#061426,#081b2f 54%,#05111d);
+}
+.topbar{
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:2vw;
+  padding:1.9vh 2.5vw;border-bottom:1px solid rgba(103,162,211,.38)
+}
+.brandwrap{display:flex;align-items:center;gap:1.4vw}
+.brand{position:relative;font-size:clamp(44px,5.2vw,82px);font-weight:950;letter-spacing:-.07em;line-height:.85}
+.brand:before{
+  content:"";position:absolute;left:-.13em;top:.27em;width:.92em;height:.34em;
+  border:.1em solid var(--blue);border-radius:50%;transform:rotate(-28deg)
+}
+.brandtag{
+  border-left:1px solid #5b89af;padding-left:1.2vw;color:#b8cadb;
+  font-size:clamp(12px,1vw,18px);letter-spacing:.13em;line-height:1.35
+}
+.clock{text-align:right}
+.clock .time{font-size:clamp(33px,3.5vw,62px);font-weight:900;letter-spacing:-.03em}
+.clock .date{font-size:clamp(12px,1.1vw,19px);color:#9db6cb;letter-spacing:.14em;text-transform:uppercase;margin-top:.2vh}
+
+.familybar{
+  padding:1.4vh 2.5vw;display:grid;grid-template-columns:1.25fr repeat(4,1fr);gap:.8vw
+}
+.today-title{
+  border-radius:.85rem;padding:1.3vh 1.2vw;display:flex;flex-direction:column;justify-content:center;
+  background:linear-gradient(135deg,#0d2a47,#0a2037);border:1px solid rgba(78,137,185,.33)
+}
+.today-title small{color:#9eb7cb;text-transform:uppercase;letter-spacing:.16em;font-size:clamp(10px,.9vw,16px)}
+.today-title strong{font-size:clamp(25px,2.8vw,48px);line-height:1;margin-top:.5vh;letter-spacing:-.03em}
+.person{
+  border-radius:.85rem;padding:1.15vh 1vw;display:flex;gap:.8vw;align-items:center;min-width:0;
+  background:linear-gradient(180deg,rgba(19,49,79,.97),rgba(10,31,51,.97));
+  border:1px solid rgba(73,133,182,.35)
+}
+.avatar{
+  width:clamp(42px,3.4vw,62px);height:clamp(42px,3.4vw,62px);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:950;font-size:clamp(18px,1.5vw,27px);
+  background:#153c60;border:2px solid #258bd5;flex:0 0 auto
+}
+.person-copy{min-width:0}
+.person-name{font-size:clamp(15px,1.28vw,23px);font-weight:900}
+.person-next{
+  color:#bad0df;font-size:clamp(11px,1vw,17px);line-height:1.2;margin-top:.4vh;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.person-time{color:#55b9ff;font-weight:850}
+
+.content{
+  min-height:0;padding:0 2.5vw 1.4vh;display:grid;grid-template-columns:1.08fr .92fr;gap:1vw
+}
+.panel{
+  min-height:0;border-radius:1rem;border:1px solid rgba(67,128,177,.42);
+  background:linear-gradient(180deg,rgba(11,34,57,.96),rgba(6,25,42,.98));
+  overflow:hidden
+}
+.panelhead{
+  height:6vh;padding:0 1.15vw;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(70,126,171,.35);background:rgba(18,51,82,.52)
+}
+.panelhead .title{font-size:clamp(21px,2vw,34px);font-weight:930}
+.panelhead .sub{font-size:clamp(10px,.9vw,16px);color:#91acc3;letter-spacing:.13em;text-transform:uppercase}
+
+.agenda{display:flex;flex-direction:column}
+.eventlist{padding:.75vh .8vw;display:grid;gap:.55vh;overflow:hidden;min-height:0}
+.event{
+  display:grid;grid-template-columns:5.3vw 4px 1fr auto;gap:.85vw;align-items:center;
+  min-height:5.5vh;padding:.55vh .75vw;border-radius:.65rem;
+  background:rgba(17,49,78,.72);border:1px solid rgba(72,124,166,.24)
+}
+.event.past{opacity:.42}
+.eventtime{font-size:clamp(14px,1.25vw,22px);font-weight:950;color:#f9fcff;text-align:right}
+.bar{height:70%;border-radius:6px;background:var(--blue)}
+.eventmain{min-width:0}
+.eventtitle{font-size:clamp(14px,1.28vw,22px);font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eventloc{color:#9eb5c8;font-size:clamp(10px,.88vw,15px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.2vh}
+.badges{display:flex;gap:.35vw;align-items:center}
+.badge{
+  padding:.32vh .55vw;border-radius:999px;background:#153b5c;border:1px solid rgba(92,153,202,.36);
+  font-size:clamp(9px,.75vw,13px);font-weight:850;color:#c9deec;white-space:nowrap
+}
+.emptyagenda{height:100%;display:flex;align-items:center;justify-content:center;color:#9fb7cb;font-size:clamp(18px,1.6vw,28px)}
+
+.school{display:flex;flex-direction:column}
+.schoolbody{min-height:0;display:grid;grid-template-rows:auto 1fr}
+.schoolstatus{
+  display:flex;align-items:center;justify-content:space-between;gap:1vw;
+  margin:.75vh .8vw .45vh;padding:.75vh .8vw;border-radius:.65rem;
+  background:linear-gradient(90deg,#087fdc,#1597ff);font-weight:900
+}
+.schoolstatus .schoolday{font-size:clamp(15px,1.3vw,23px)}
+.schoolstatus .count{font-size:clamp(12px,1vw,17px);opacity:.94}
+.lessons{
+  min-height:0;padding:.4vh .8vw .8vh;display:grid;grid-template-columns:repeat(2,1fr);gap:.5vh .55vw;
+  align-content:start
+}
+.lesson{
+  --accent:var(--blue);
+  min-height:5.2vh;border-radius:.6rem;overflow:hidden;display:grid;grid-template-columns:3.1vw 1fr auto;
+  align-items:center;background:rgba(16,45,72,.8);border:1px solid rgba(70,127,171,.28)
+}
+.lessonnum{height:100%;display:flex;align-items:center;justify-content:center;background:var(--accent);font-weight:950;font-size:clamp(15px,1.3vw,22px)}
+.lessonc{min-width:0;padding:.45vh .6vw}
+.subject{font-size:clamp(12px,1.08vw,18px);font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.teacher{font-size:clamp(9px,.8vw,14px);color:#a8bfd2;margin-top:.15vh}
+.room{padding-right:.6vw;font-size:clamp(10px,.84vw,15px);font-weight:900;color:#dceaf4;white-space:nowrap}
+.c1{--accent:var(--red)} .c2{--accent:var(--orange)} .c3{--accent:var(--yellow)}
+.c4{--accent:var(--green)} .c5{--accent:var(--cyan)} .c6{--accent:var(--purple)} .c7{--accent:var(--pink)}
+
+.ticker{
+  min-height:0;display:grid;grid-template-columns:auto 1fr;overflow:hidden;background:#f2f7fb;color:#0a2440
+}
+.tickerlead{
+  position:relative;z-index:2;display:flex;align-items:center;padding:0 1.9vw;
+  background:linear-gradient(90deg,#ed182b,#fa2b3a);color:white;font-weight:950;
+  font-size:clamp(15px,1.5vw,27px);white-space:nowrap
+}
+.tickerlead:after{
+  content:"";position:absolute;right:-2vw;top:0;border-top:9vh solid #fa2b3a;border-right:2vw solid transparent
+}
+.tickerwindow{display:flex;align-items:center;overflow:hidden;padding-left:2.4vw}
+.tickertrack{
+  white-space:nowrap;width:max-content;padding-left:100%;font-size:clamp(13px,1.25vw,22px);font-weight:850;
+  animation:scroll 50s linear infinite
+}
+.dot{color:#e11931;padding:0 1em;font-size:1.25em}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+
+@media(max-aspect-ratio:4/3){
+  .screen{grid-template-rows:12vh 18vh 1fr 9vh}
+  .familybar{grid-template-columns:1fr 1fr 1fr}.today-title{grid-column:1/-1}.person:nth-child(4),.person:nth-child(5){display:none}
+  .content{grid-template-columns:1fr}.school{display:none}
+}
+</style>
+</head>
+<body>
+<div class="screen">
+  <header class="topbar">
+    <div class="brandwrap">
+      <div class="brand">Orbit</div>
+      <div class="brandtag">LEE FAMILY<br>LIVE BOARD</div>
+    </div>
+    <div class="clock">
+      <div class="time" id="clock">--:--</div>
+      <div class="date" id="date">—</div>
+    </div>
+  </header>
+
+  <section class="familybar">
+    <div class="today-title">
+      <small>Today on Orbit</small>
+      <strong id="headline">Lee Family Today</strong>
+    </div>
+    <div class="person"><div class="avatar">S</div><div class="person-copy"><div class="person-name">Simon</div><div class="person-next" id="nextSimon">No personal event listed</div></div></div>
+    <div class="person"><div class="avatar">A</div><div class="person-copy"><div class="person-name">Annie</div><div class="person-next" id="nextAnnie">No personal event listed</div></div></div>
+    <div class="person"><div class="avatar">T</div><div class="person-copy"><div class="person-name">Tom</div><div class="person-next" id="nextTom">—</div></div></div>
+    <div class="person"><div class="avatar">C</div><div class="person-copy"><div class="person-name">Callum</div><div class="person-next" id="nextCallum">—</div></div></div>
+  </section>
+
+  <main class="content">
+    <section class="panel agenda">
+      <div class="panelhead"><div class="title">Family agenda</div><div class="sub" id="agendaSub">TODAY</div></div>
+      <div class="eventlist" id="eventList"></div>
+    </section>
+
+    <section class="panel school">
+      <div class="panelhead"><div class="title">Tom’s school day</div><div class="sub">REG GROUP 1M2 • STAGE S1</div></div>
+      <div class="schoolbody">
+        <div class="schoolstatus"><span class="schoolday" id="schoolDay">—</span><span class="count" id="lessonCount">—</span></div>
+        <div class="lessons" id="lessons"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ticker">
+    <div class="tickerlead" id="tickerLead">ORBIT TODAY</div>
+    <div class="tickerwindow"><div class="tickertrack" id="tickerTrack">Lee Family Today</div></div>
+  </footer>
+</div>
+
+<script>
+const timetable = {
+  Monday:[
+    ["Technological Studies","Mr Reilly","Rm 5"],["Mathematics","Mrs Hudson","Rm 39"],
+    ["French","Mr Ferguson","Rm 54"],["Science","Mr Brett","Rm 41"],
+    ["Social Subjects","Miss Burns","Rm 29"],["English","Mr Young","Rm 33"],["Music","Mr Gordon","Rm 16"]
+  ],
+  Tuesday:[
+    ["Information Technology","Mr Maclean","Rm 23"],["Social Subjects","Mrs Armour","Rm 31"],
+    ["Art","Mrs Cartwright","Rm 9"],["Mathematics","Mrs Hudson","Rm 39"],
+    ["Science","Mr McCormack","Rm 40"],["Technological Studies","Mr Reilly","Rm 17"],["English","Mr Young","Rm 33"]
+  ],
+  Wednesday:[
+    ["Mathematics","Mrs Hudson","Rm 39"],["French","Mr Ferguson","Rm 54"],
+    ["Information Technology","Mr Ross","Rm 25"],["English","Mr Young","Rm 33"],
+    ["Science","Mr McCormack","Rm 47"],["Social Subjects","Mrs Armour","Rm 30"]
+  ],
+  Thursday:[
+    ["French","Mr Ferguson","Rm 54"],["PSE","Mrs Beattie","Rm 34"],
+    ["Art","Mrs Hitchman","Rm 9"],["Physical Education","Miss Crossland","Rm GH1"],
+    ["English","Mr Young","Rm 33"],["Mathematics","Mrs Hudson","Rm 39"],["Home Economics","Mrs Wallace","Rm 1"]
+  ],
+  Friday:[
+    ["Music","Mr Gordon","Rm 16"],["English","Mr Young","Rm 33"],
+    ["Physical Education","Miss Crossland","Rm GH1"],["John Muir Award","Mrs Whyte","Rm 60"],
+    ["Mathematics","Mrs Hudson","Rm 39"],["Religious Studies","Mr Maclean","Rm 30"]
+  ]
+};
+
+const events = {
+  "2026-09-05":[
+    {time:"00:00",title:"Ben’s birthday",loc:"",who:["Family"],kind:"birthday"},
+    {time:"08:05",title:"Tom Swimming",loc:"Garnock Community Campus",who:["Tom"],kind:"sport"},
+    {time:"10:00",title:"SAFC 2016 availability",loc:"",who:["Callum"],kind:"sport"},
+    {time:"10:25",title:"Delta vs Bellfield Youth — Away",loc:"William McIlvanney Campus",who:["Callum"],kind:"sport"},
+    {time:"11:15",title:"Stewarton Annick vs Cambusdoon Colts — Away",loc:"Cambusdoon Sports Club",who:["Tom"],kind:"sport"},
+    {time:"15:00",title:"Crewe Alexandra vs York City",loc:"Mornflake Stadium",who:["Simon"],kind:"football"}
+  ],
+  "2026-09-06":[
+    {time:"12:00",title:"Dunlop Fun Run",loc:"Dunlop",who:["Family"],kind:"family"},
+    {time:"12:30",title:"Fun Run registration",loc:"The Park",who:["Family"],kind:"family"},
+    {time:"14:00",title:"Dunlop Fun Run — 2k start",loc:"The Park",who:["Family"],kind:"family"},
+    {time:"14:30",title:"Dunlop Fun Run — 5k start",loc:"The Park",who:["Family"],kind:"family"}
+  ],
+  "2026-09-07":[
+    {time:"16:00",title:"Car to garage before 5pm",loc:"Recall work tomorrow",who:["Family"],kind:"home"},
+    {time:"16:30",title:"Boys TKD",loc:"Dunlop Village Hall",who:["Tom","Callum"],kind:"sport"},
+    {time:"17:35",title:"Tom Swimming",loc:"Vikingar Leisure Centre, Largs",who:["Tom"],kind:"sport"},
+    {time:"18:00",title:"Stewarton Annick 2013 training",loc:"Cocklebie Grass Pitch",who:["Tom"],kind:"sport"},
+    {time:"19:00",title:"Callum Cubs",loc:"Dunlop Church Hall",who:["Callum"],kind:"club"}
+  ],
+  "2026-09-08":[
+    {time:"ALL DAY",title:"House insurance ends",loc:"Home reminder",who:["Family"],kind:"home"},
+    {time:"18:00",title:"Callum Swimming",loc:"Neilston Leisure Centre",who:["Callum"],kind:"sport"}
+  ],
+  "2026-09-09":[
+    {time:"15:00",title:"After School Football Club",loc:"",who:["Family"],kind:"sport"},
+    {time:"16:30",title:"Boys TKD",loc:"Dunlop Village Hall",who:["Tom","Callum"],kind:"sport"},
+    {time:"18:00",title:"SAFC 2016 training",loc:"Rose Reilly Sports Centre",who:["Callum"],kind:"sport"},
+    {time:"19:00",title:"Stewarton Annick 2013 training",loc:"Rose Reilly Sports Centre",who:["Tom"],kind:"sport"}
+  ],
+  "2026-09-10":[
+    {time:"17:30",title:"Meet Callum’s teacher",loc:"17:30–17:50",who:["Callum","Family"],kind:"school"},
+    {time:"18:00",title:"SAFC 2016 training",loc:"Stewarton Academy",who:["Callum"],kind:"sport"},
+    {time:"18:20",title:"Tom Swimming",loc:"The Portal, Irvine",who:["Tom"],kind:"sport"}
+  ],
+  "2026-09-11":[
+    {time:"11:00",title:"Submit meter readings",loc:"Before 13 September",who:["Family"],kind:"home"},
+    {time:"19:00",title:"Out for dinner — Karen",loc:"",who:["Family"],kind:"family"}
+  ]
+};
+
+const dayNames=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const palette={sport:"#10bbc6",football:"#36b76d",birthday:"#e64292",family:"#895bdd",home:"#f6c12a",club:"#ff7a2b",school:"#1597ff"};
+const forbidden=/\b(bank|banking|credit card|debit card|payment|direct debit|mortgage|loan)\b/i;
+const medical=/\b(gp|doctor|hospital|medical|test|clinic|prescription)\b/i;
+
+function pad(n){return String(n).padStart(2,"0")}
+function keyFor(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
+function timeNowMinutes(d){return d.getHours()*60+d.getMinutes()}
+function eventMinutes(t){
+  if(t==="ALL DAY")return -1;
+  const [h,m]=t.split(":").map(Number); return h*60+m;
+}
+function nextSchoolDay(d){
+  const n=new Date(d);
+  do{n.setDate(n.getDate()+1)}while(n.getDay()===0||n.getDay()===6);
+  return dayNames[n.getDay()];
+}
+function safeEvents(dayKey){
+  return (events[dayKey]||[]).filter(e=>!forbidden.test(e.title)&&!forbidden.test(e.loc||"")&&!medical.test(e.title));
+}
+
+function renderClock(){
+  const now=new Date();
+  document.getElementById("clock").textContent=now.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+  document.getElementById("date").textContent=now.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+}
+
+function nextFor(person, list, now){
+  const mins=timeNowMinutes(now);
+  const candidates=list.filter(e=>e.who.includes(person)||e.who.includes("Family"))
+    .filter(e=>e.time==="ALL DAY"||eventMinutes(e.time)>=mins);
+  if(!candidates.length)return "No more events today";
+  const e=candidates[0];
+  return `<span class="person-time">${e.time}</span> · ${e.title}`;
+}
+
+function render(){
+  const now=new Date();
+  const today=dayNames[now.getDay()];
+  const dayKey=keyFor(now);
+  const list=safeEvents(dayKey);
+
+  document.getElementById("headline").textContent =
+    now.getDay()===0||now.getDay()===6 ? "Lee Family Weekend" : "Lee Family Today";
+  document.getElementById("agendaSub").textContent=today.toUpperCase();
+
+  document.getElementById("nextSimon").innerHTML=nextFor("Simon",list,now);
+  document.getElementById("nextAnnie").innerHTML=nextFor("Annie",list,now);
+  document.getElementById("nextTom").innerHTML=nextFor("Tom",list,now);
+  document.getElementById("nextCallum").innerHTML=nextFor("Callum",list,now);
+
+  const eventList=document.getElementById("eventList");
+  eventList.innerHTML="";
+  if(!list.length){
+    eventList.innerHTML=`<div class="emptyagenda">Nothing else on the family calendar today.</div>`;
+  } else {
+    const nowM=timeNowMinutes(now);
+    list.slice(0,7).forEach(e=>{
+      const el=document.createElement("div");
+      const past=e.time!=="ALL DAY" && eventMinutes(e.time)<nowM;
+      el.className="event"+(past?" past":"");
+      const people=e.who.map(w=>`<span class="badge">${w}</span>`).join("");
+      el.innerHTML=`
+        <div class="eventtime">${e.time}</div>
+        <div class="bar" style="background:${palette[e.kind]||'#1597ff'}"></div>
+        <div class="eventmain"><div class="eventtitle">${e.title}</div><div class="eventloc">${e.loc||"&nbsp;"}</div></div>
+        <div class="badges">${people}</div>`;
+      eventList.appendChild(el);
+    });
+  }
+
+  const weekend=now.getDay()===0||now.getDay()===6;
+  const schoolName=weekend?nextSchoolDay(now):today;
+  const lessons=timetable[schoolName]||[];
+  document.getElementById("schoolDay").textContent=weekend?`Next school day: ${schoolName}`:schoolName;
+  document.getElementById("lessonCount").textContent=`${lessons.length} lessons`;
+  const lessonWrap=document.getElementById("lessons");
+  lessonWrap.innerHTML="";
+  lessons.forEach((l,i)=>{
+    const x=document.createElement("div"); x.className=`lesson c${i+1}`;
+    x.innerHTML=`<div class="lessonnum">${i+1}</div><div class="lessonc"><div class="subject">${l[0]}</div><div class="teacher">${l[1]}</div></div><div class="room">${l[2]}</div>`;
+    lessonWrap.appendChild(x);
+  });
+
+  const tickerBits=[];
+  if(weekend)tickerBits.push(`NEXT SCHOOL DAY: ${schoolName.toUpperCase()}`);
+  list.forEach(e=>tickerBits.push(`${e.time} ${e.title.toUpperCase()}`));
+  if(!list.length)tickerBits.push("NO MORE FAMILY EVENTS LISTED TODAY");
+  const text=tickerBits.map(x=>`<span>${x}</span>`).join(`<span class="dot">•</span>`);
+  document.getElementById("tickerLead").textContent=weekend?"ORBIT WEEKEND":"ORBIT TODAY";
+  document.getElementById("tickerTrack").innerHTML=text+`<span class="dot">•</span>`+text;
+}
+
+renderClock();render();
+setInterval(renderClock,1000);
+setInterval(render,30000);
+</script>
+</body>
+</html>
