@@ -1,0 +1,19 @@
+{
+  "name": "Orbit — Lee Family TV",
+  "short_name": "Orbit",
+  "start_url": "./tv-family.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#04101d",
+  "theme_color": "#04101d",
+  "orientation": "landscape",
+  "description": "Lee family TV dashboard for Simon, Annie, Tom and Callum.",
+  "icons": [
+    {
+      "src": "orbit-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
