@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#04101d">
+<title>Orbit — Lee Family TV</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#04101d;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+#orbitFrame{position:fixed;inset:0;width:100%;height:100%;border:0;background:#061426}
+.splash{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;color:#f7fbff;overflow:hidden;background:radial-gradient(circle at 50% 18%,rgba(21,151,255,.23),transparent 34%),radial-gradient(circle at 15% 85%,rgba(138,91,221,.16),transparent 30%),linear-gradient(145deg,#04101d 0%,#071a2d 48%,#04111f 100%);transition:opacity .8s ease,visibility .8s ease}
+.splash.hide{opacity:0;visibility:hidden;pointer-events:none}
+.splash:before,.splash:after{content:"";position:absolute;border:1px solid rgba(60,160,255,.22);border-radius:50%;width:68vw;height:30vw;transform:rotate(-15deg);left:16vw;top:13vh}
+.splash:after{width:88vw;height:39vw;left:6vw;top:6vh;border-color:rgba(60,160,255,.10)}
+.inner{position:relative;z-index:2;width:min(1180px,90vw);text-align:center}
+.kicker{font-size:clamp(12px,1.15vw,19px);letter-spacing:.28em;text-transform:uppercase;color:#8fb9da;font-weight:850}
+.logo{position:relative;display:inline-block;margin-top:1.2vh;font-size:clamp(76px,10vw,168px);font-weight:950;letter-spacing:-.075em;line-height:.9}
+.logo:before{content:"";position:absolute;left:-.12em;top:.28em;width:.92em;height:.34em;border:.09em solid #1597ff;border-radius:50%;transform:rotate(-28deg)}
+.title{margin-top:2.1vh;font-size:clamp(28px,3.4vw,56px);font-weight:930;letter-spacing:-.025em}
+.sub{margin-top:.6vh;font-size:clamp(13px,1.3vw,21px);color:#a8bfd2;letter-spacing:.08em}
+.family{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;margin:3.2vh auto 2vh;max-width:950px}
+.person{padding:1.2vh .8vw;border-radius:1rem;background:linear-gradient(180deg,rgba(19,52,84,.92),rgba(8,30,51,.92));border:1px solid rgba(79,145,198,.38);box-shadow:0 18px 40px rgba(0,0,0,.16)}
+.initial{width:clamp(46px,4.2vw,72px);height:clamp(46px,4.2vw,72px);border-radius:50%;margin:0 auto .7vh;display:flex;align-items:center;justify-content:center;font-size:clamp(20px,2vw,34px);font-weight:950;background:#123e63;border:2px solid #2197e8}
+.name{font-size:clamp(16px,1.45vw,24px);font-weight:900}
+.stuff{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.55vw;margin-top:1.4vh}
+.chip{padding:.62vh .8vw;border-radius:999px;background:rgba(19,56,89,.75);border:1px solid rgba(82,148,201,.3);font-size:clamp(10px,.9vw,15px);font-weight:800;color:#c4d8e8}
+.loading{margin-top:2.4vh;color:#58b9ff;font-size:clamp(11px,1vw,17px);letter-spacing:.18em;text-transform:uppercase;font-weight:900}
+.progress{width:min(520px,52vw);height:4px;border-radius:9px;background:rgba(116,166,205,.2);margin:1.4vh auto 0;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:#1597ff;animation:progress 6s linear forwards}
+@keyframes progress{to{width:100%}}
+@media(max-width:760px){.family{grid-template-columns:repeat(2,1fr);max-width:430px;gap:1.2vh 2vw;margin-top:2.4vh}.stuff{max-width:520px;margin-left:auto;margin-right:auto;gap:.7vh 1vw}.logo{font-size:clamp(66px,19vw,104px)}.title{font-size:clamp(24px,7vw,38px)}}
+</style>
+</head>
+<body>
+<iframe id="orbitFrame" src="tv.html" title="Orbit family TV dashboard"></iframe>
+<div class="splash" id="splash">
+  <div class="inner">
+    <div class="kicker">Lee Family TV</div>
+    <div class="logo">Orbit</div>
+    <div class="title">Simon • Annie • Tom • Callum</div>
+    <div class="sub">Our day, together — live from Dunlop</div>
+    <div class="family">
+      <div class="person"><div class="initial">S</div><div class="name">Simon</div></div>
+      <div class="person"><div class="initial">A</div><div class="name">Annie</div></div>
+      <div class="person"><div class="initial">T</div><div class="name">Tom</div></div>
+      <div class="person"><div class="initial">C</div><div class="name">Callum</div></div>
+    </div>
+    <div class="stuff">
+      <span class="chip">Family calendar</span><span class="chip">School day</span><span class="chip">Football</span><span class="chip">Swimming</span><span class="chip">TKD & clubs</span><span class="chip">Birthdays</span><span class="chip">Family reminders</span>
+    </div>
+    <div class="loading">Loading today on Orbit</div>
+    <div class="progress"><span></span></div>
+  </div>
+</div>
+<script>
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('splash').classList.add('hide'),6000)});
+</script>
+</body>
+</html>
